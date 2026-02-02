@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { useOrigin } from "@/hooks/use-origin";
+// removed unused useOrigin
 import {
   Select,
   SelectContent,
@@ -37,7 +37,6 @@ import {
   Image,
   Product,
 } from "../../../../../../../../generated/prisma";
-import ImageUploadProduct from "@/components/ui/image-upload-product";
 import ImageUpload from "@/components/ui/image-upload";
 
 interface ProductFormProps {
@@ -66,7 +65,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 }) => {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -109,7 +107,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.refresh();
       router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
-    } catch (error) {
+    } catch {
       toast.error("Cek kembali data yang diinput");
     } finally {
       setLoading(false);
@@ -123,7 +121,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.refresh();
       router.push(`/${params.storeId}/products`);
       toast.success("Produk berhasil dihapus");
-    } catch (error) {
+    } catch {
       toast.error("Cek kembali data dan koneksi mu");
     } finally {
       setLoading(false);

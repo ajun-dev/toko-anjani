@@ -5,12 +5,6 @@ import Info from "@/components/info";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
 
-interface ProductPageProps {
-  params: {
-    productId: string;
-  };
-}
-
 const ProductPage = async ({
   params,
 }: {

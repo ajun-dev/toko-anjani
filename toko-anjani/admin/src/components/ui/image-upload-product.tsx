@@ -13,8 +13,6 @@ interface ImageUploadProps {
   value: string[];
 }
 
-type UploadInfo = { secure_url: string } | string;
-
 const ImageUploadProduct: React.FC<ImageUploadProps> = ({
   disabled,
   onChange,

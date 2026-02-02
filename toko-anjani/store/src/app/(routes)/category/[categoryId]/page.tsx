@@ -5,12 +5,6 @@ import Container from "@/components/ui/container";
 import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
 
-interface CategoryPageProps {
-  params: {
-    categoryId: string;
-  };
-}
-
 const CategoryPage = async ({
   params,
 }: {

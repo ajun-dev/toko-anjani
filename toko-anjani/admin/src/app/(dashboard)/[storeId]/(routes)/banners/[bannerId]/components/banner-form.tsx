@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { useOrigin } from "@/hooks/use-origin";
+// removed unused useOrigin
 import ImageUpload from "@/components/ui/image-upload";
 import { Banner } from "../../../../../../../../generated/prisma";
 
@@ -40,7 +40,6 @@ type BannerFormValues = z.infer<typeof formSchema>;
 export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -74,7 +73,7 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
       router.refresh();
       router.push(`/${params.storeId}/banners`);
       toast.success(toastMessage);
-    } catch (error) {
+    } catch {
       toast.error("Cek kembali data yang diinput");
     } finally {
       setLoading(false);
@@ -88,7 +87,7 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
       router.refresh();
       router.push(`/${params.storeId}/banners`);
       toast.success("Banner berhasil dihapus");
-    } catch (error) {
+    } catch {
       toast.error("Cek kembali data dan koneksi mu");
     } finally {
       setLoading(false);

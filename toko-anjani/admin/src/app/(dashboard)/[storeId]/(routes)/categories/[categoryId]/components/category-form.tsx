@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { useOrigin } from "@/hooks/use-origin";
+// removed unused useOrigin
 import {
   Select,
   SelectContent,
@@ -50,7 +50,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 }) => {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -83,7 +82,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       }
       router.push(`/${params.storeId}/categories`);
       toast.success(toastMessage);
-    } catch (error) {
+    } catch {
       toast.error("Cek kembali data yang diinput");
     } finally {
       setLoading(false);
@@ -99,7 +98,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       router.refresh();
       router.push(`/${params.storeId}/categories`);
       toast.success("Category berhasil dihapus");
-    } catch (error) {
+    } catch {
       toast.error("Cek kembali data dan koneksi mu");
     } finally {
       setLoading(false);
