@@ -3,13 +3,11 @@
 import { useState } from "react";
 import { Store } from "@prisma/client";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { useStoreModal } from "@/hooks/use-store-modal";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import {
   Check,
   ChevronsUpDown,
-  PlusCircle,
   Store as StoreIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -32,7 +30,6 @@ interface StoreSwitcherProps extends PopoverTriggerProps {
 }
 
 const StoreSwitcher = ({ className, items = [] }: StoreSwitcherProps) => {
-  const storeModal = useStoreModal();
   const params = useParams();
   const router = useRouter();
 
@@ -94,20 +91,6 @@ const StoreSwitcher = ({ className, items = [] }: StoreSwitcherProps) => {
                   />
                 </CommandItem>
               ))}
-            </CommandGroup>
-          </CommandList>
-          <CommandSeparator />
-          <CommandList>
-            <CommandGroup>
-              <CommandItem
-                onSelect={() => {
-                  setOpen(false);
-                  storeModal.onOpen();
-                }}
-              >
-                <PlusCircle className="mr-2 h-5 w-5" />
-                Buat Toko
-              </CommandItem>
             </CommandGroup>
           </CommandList>
         </Command>
