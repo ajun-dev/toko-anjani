@@ -13,6 +13,18 @@ const ProductPage = async ({
   const { productId } = await params;
   const product = await getProduct(productId);
 
+  if (!product) {
+    return (
+      <div className="bg-white">
+        <Container>
+          <div className="px-4 py-10 sm:px-6 lg:px-8">
+            <ProductList title="Produk Terkait" items={[]} />
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
   const suggestedProducts = await getProducts({
     categoryId: product?.category?.id,
   });
