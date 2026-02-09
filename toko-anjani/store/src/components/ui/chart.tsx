@@ -120,6 +120,7 @@ type ChartTooltipContentProps = React.ComponentProps<"div"> & {
     label: React.ReactNode,
     payload?: ChartTooltipItem[]
   ) => React.ReactNode
+  labelClassName?: string
   formatter?: (
     value: number | string,
     name: string,
