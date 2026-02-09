@@ -7,6 +7,7 @@ import { Expand } from "lucide-react";
 import Currency from "./currency";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler } from "react";
+import PreviewModal from "../preview-modal";
 import usePreviewModal from "@/hooks/use-preview-modal";
 
 interface ProductCardProps {

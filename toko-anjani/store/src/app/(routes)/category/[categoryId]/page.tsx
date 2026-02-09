@@ -5,6 +5,12 @@ import Container from "@/components/ui/container";
 import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
 
+interface CategoryPageProps {
+  params: {
+    categoryId: string;
+  };
+}
+
 const CategoryPage = async ({
   params,
 }: {
@@ -16,17 +22,6 @@ const CategoryPage = async ({
   });
 
   const category = await getCategory(categoryId);
-  if (!category) {
-    return (
-      <div className="bg-white">
-        <Container>
-          <div className="px-4 sm:px-6 lg:px-8 pb-24">
-            <NoResults />
-          </div>
-        </Container>
-      </div>
-    );
-  }
   return (
     <div className="bg-white">
       <Container>

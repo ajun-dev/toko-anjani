@@ -5,6 +5,12 @@ import Info from "@/components/info";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
 
+interface ProductPageProps {
+  params: {
+    productId: string;
+  };
+}
+
 const ProductPage = async ({
   params,
 }: {
@@ -12,18 +18,6 @@ const ProductPage = async ({
 }) => {
   const { productId } = await params;
   const product = await getProduct(productId);
-
-  if (!product) {
-    return (
-      <div className="bg-white">
-        <Container>
-          <div className="px-4 py-10 sm:px-6 lg:px-8">
-            <ProductList title="Produk Terkait" items={[]} />
-          </div>
-        </Container>
-      </div>
-    );
-  }
 
   const suggestedProducts = await getProducts({
     categoryId: product?.category?.id,

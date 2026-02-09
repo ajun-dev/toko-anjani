@@ -2,7 +2,7 @@
 
 import { Image as ImageType } from "@/types";
 
-import { TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import GalleryTab from "./gallery-tab";
 import Image from "next/image";
 
