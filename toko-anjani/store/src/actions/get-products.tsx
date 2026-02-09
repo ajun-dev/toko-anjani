@@ -9,17 +9,32 @@ interface Query {
 }
 
 const getProducts = async (query: Query): Promise<Product[]> => {
-  const url = qs.stringifyUrl({
-    url: URL,
-    query: {
-      categoryId: query.categoryId,
-      isFeatured: query.isFeatured,
-    },
-  });
+  try {
+    if (!process.env.PUBLIC_API_URL) {
+      throw new Error("PUBLIC_API_URL is not configured");
+    }
 
-  const res = await fetch(url);
+    const url = qs.stringifyUrl({
+      url: URL,
+      query: {
+        categoryId: query.categoryId,
+        isFeatured: query.isFeatured,
+      },
+    });
 
-  return res.json();
+    const res = await fetch(url, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      throw new Error(`API responded with status ${res.status}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
 };
 
 export default getProducts;
