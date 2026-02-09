@@ -16,7 +16,8 @@ const getCategory = async (id: string): Promise<Category | null> => {
       throw new Error(`API responded with status ${res.status}`);
     }
 
-    return res.json();
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.error("Error fetching category:", error);
     return null;

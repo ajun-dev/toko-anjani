@@ -16,7 +16,8 @@ const getProduct = async (id: string): Promise<Product | null> => {
       throw new Error(`API responded with status ${res.status}`);
     }
 
-    return res.json();
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.error("Error fetching product:", error);
     return null;
