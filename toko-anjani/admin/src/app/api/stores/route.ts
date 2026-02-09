@@ -13,11 +13,13 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const storeName = name || "Toko Anjani";
+    if (!name) {
+      return new NextResponse("Nama toko perlu diinput", { status: 400 });
+    }
 
     const store = await db.store.create({
       data: {
-        name: storeName,
+        name,
         userId,
       },
     });
