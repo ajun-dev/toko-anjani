@@ -21,6 +21,14 @@ export default async function SetupLayout({
   if (store) {
     redirect(`/${store.id}`);
   }
-  console.log("userId", userId);
-  return <>{children}</>;
+
+  // Auto-create default store "Toko Anjani" for new users
+  const newStore = await db.store.create({
+    data: {
+      name: "Toko Anjani",
+      userId,
+    },
+  });
+
+  redirect(`/${newStore.id}`);
 }
