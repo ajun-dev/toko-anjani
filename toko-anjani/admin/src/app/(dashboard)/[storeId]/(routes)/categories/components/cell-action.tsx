@@ -57,7 +57,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <button 
-            className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer"
+            className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer pointer-events-auto"
             type="button"
           >
             <span className="sr-only">Open Menu</span>
