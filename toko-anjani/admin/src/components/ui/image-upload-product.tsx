@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "./button";
-import { ImagePlus, Trash } from "lucide-react";
+import { ImagePlus, Trash, Loader } from "lucide-react";
 import Image from "next/image";
-import { CldUploadWidget } from "next-cloudinary";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -20,6 +19,7 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
   value,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -28,6 +28,58 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
   if (!isMounted) {
     return null;
   }
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setIsLoading(true);
+    const newUrls: string[] = [];
+
+    try {
+      // Get signature from server
+      const sigRes = await fetch("/api/cloudinary/signature", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      
+      if (!sigRes.ok) throw new Error("Failed to get signature");
+      const { signature, timestamp } = await sigRes.json();
+
+      for (const file of Array.from(files)) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("api_key", "895935489518768");
+        formData.append("timestamp", String(timestamp));
+        formData.append("signature", signature);
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dbdby6oxg/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          newUrls.push(data.secure_url);
+        } else {
+          console.error("Upload failed:", await res.text());
+        }
+      }
+
+      if (newUrls.length > 0) {
+        onChange([...value, ...newUrls]);
+      }
+    } catch (error) {
+      console.error("Error uploading:", error);
+    } finally {
+      setIsLoading(false);
+      if (e.target) e.target.value = "";
+    }
+  };
 
   return (
     <div>
@@ -52,40 +104,35 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
         ))}
       </div>
 
-      <CldUploadWidget
-        signatureEndpoint="/api/cloudinary/signature"
-        options={{
-          cloudName: "dbdby6oxg",
-          apiKey: "895935489518768",
-          multiple: true,
-          sources: ["local", "url", "camera"],
-        }}
-        onSuccess={(result) => {
-          let urls: string[] = [];
-          if (Array.isArray(result.info)) {
-            urls = result.info
-              .filter((info) => typeof info !== "string" && "secure_url" in info)
-              .map((info) => info.secure_url);
-          } else if (result.info && typeof result.info !== "string" && "secure_url" in result.info) {
-            urls = [result.info.secure_url];
-          }
-          if (urls.length > 0) {
-            onChange([...value, ...urls]);
-          }
-        }}
-      >
-        {({ open }) => (
-          <Button
-            type="button"
-            disabled={disabled}
-            variant="secondary"
-            onClick={() => open()}
-          >
-            <ImagePlus className="h-4 w-4 mr-2" />
-            Upload images
-          </Button>
-        )}
-      </CldUploadWidget>
+      <div className="flex items-center gap-2">
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleFileUpload}
+          disabled={disabled || isLoading}
+          className="hidden"
+          id="image-upload-product"
+        />
+        <Button
+          type="button"
+          disabled={disabled || isLoading}
+          variant="secondary"
+          onClick={() => document.getElementById("image-upload-product")?.click()}
+        >
+          {isLoading ? (
+            <>
+              <Loader className="h-4 w-4 mr-2 animate-spin" />
+              Uploading...
+            </>
+          ) : (
+            <>
+              <ImagePlus className="h-4 w-4 mr-2" />
+              Upload images
+            </>
+          )}
+        </Button>
+      </div>
     </div>
   );
 };
