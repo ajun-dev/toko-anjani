@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "./button";
-import { ImagePlus, Trash } from "lucide-react";
+import { ImagePlus, Trash, Loader } from "lucide-react";
 import Image from "next/image";
-import { CldUploadWidget } from "next-cloudinary";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -20,6 +19,7 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
   value,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -28,6 +28,44 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
   if (!isMounted) {
     return null;
   }
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    setIsLoading(true);
+    const newUrls: string[] = [];
+
+    try {
+      for (const file of Array.from(files)) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "unsigned_upload");
+        formData.append("cloud_name", "dbdby6oxg");
+
+        const res = await fetch("https://api.cloudinary.com/v1_1/dbdby6oxg/image/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          newUrls.push(data.secure_url);
+        } else {
+          console.error("Upload failed:", res.statusText);
+        }
+      }
+
+      if (newUrls.length > 0) {
+        onChange([...value, ...newUrls]);
+      }
+    } catch (error) {
+      console.error("Error uploading:", error);
+    } finally {
+      setIsLoading(false);
+      e.target.value = "";
+    }
+  };
 
   return (
     <div>
@@ -51,45 +89,41 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
           </div>
         ))}
       </div>
-      <CldUploadWidget
-        uploadPreset="ml_default"
-        options={{
-          multiple: true,
-          singleUploadAutoClose: false,
-          sources: ["local", "url", "camera"],
-        }}
-        onSuccess={(result) => {
-          let urls: string[] = [];
-          if (Array.isArray(result.info)) {
-            urls = result.info
-              .filter(
-                (info) => typeof info !== "string" && "secure_url" in info
-              )
-              .map((info) => info.secure_url);
-          } else if (
-            result.info &&
-            typeof result.info !== "string" &&
-            "secure_url" in result.info
-          ) {
-            urls = [result.info.secure_url];
-          }
-          if (urls.length > 0) {
-            onChange([...value, ...urls]);
-          }
-        }}
-      >
-        {({ open, isLoading }) => (
+
+      <div className="flex items-center gap-2">
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleFileUpload}
+          disabled={disabled || isLoading}
+          className="hidden"
+          id="image-upload-product"
+        />
+        <label htmlFor="image-upload-product">
           <Button
             type="button"
             disabled={disabled || isLoading}
             variant="secondary"
-            onClick={() => open()} // ✅ Wrap in a lambda
+            onClick={() => document.getElementById("image-upload-product")?.click()}
+            asChild
           >
-            <ImagePlus className="h-4 w-4 mr-2" />
-            {isLoading ? "Uploading..." : "Upload image"}
+            <div className="cursor-pointer">
+              {isLoading ? (
+                <>
+                  <Loader className="h-4 w-4 mr-2 animate-spin" />
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <ImagePlus className="h-4 w-4 mr-2" />
+                  Upload images
+                </>
+              )}
+            </div>
           </Button>
-        )}
-      </CldUploadWidget>
+        </label>
+      </div>
     </div>
   );
 };
