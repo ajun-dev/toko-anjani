@@ -52,7 +52,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
       <CldUploadWidget
-        uploadPreset="ml_default"
+        uploadPreset="kyop6jdp"
         options={{ multiple: true, singleUploadAutoClose: false, sources: ["local", "url", "camera"] }}
         onSuccess={(result) => {
           const info = result.info;

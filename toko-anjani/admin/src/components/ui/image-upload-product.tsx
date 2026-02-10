@@ -52,7 +52,7 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
         ))}
       </div>
       <CldUploadWidget
-        uploadPreset="ml_default"
+        uploadPreset="kyop6jdp"
         options={{
           multiple: true,
           singleUploadAutoClose: false,
