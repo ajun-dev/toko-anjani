@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "./button";
-import { ImagePlus, Trash, Loader } from "lucide-react";
+import { ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
+import { CldUploadWidget } from "next-cloudinary";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -19,7 +20,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -28,56 +28,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   if (!isMounted) {
     return null;
   }
-
-  const fetchSignature = async () => {
-    const res = await fetch("/api/cloudinary/signature", { method: "POST" });
-    if (!res.ok) {
-      throw new Error("Failed to get upload signature");
-    }
-    return res.json() as Promise<{
-      timestamp: number;
-      signature: string;
-      apiKey: string;
-      cloudName: string;
-    }>;
-  };
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-
-    setIsLoading(true);
-    try {
-      const { timestamp, signature, apiKey, cloudName } = await fetchSignature();
-      for (const file of Array.from(files)) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("api_key", apiKey);
-        formData.append("timestamp", String(timestamp));
-        formData.append("signature", signature);
-
-        const res = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        if (res.ok) {
-          const data = await res.json();
-          onChange(data.secure_url);
-        } else {
-          console.error("Upload failed:", res.statusText);
-        }
-      }
-    } catch (error) {
-      console.error("Error uploading:", error);
-    } finally {
-      setIsLoading(false);
-      e.target.value = "";
-    }
-  };
 
   return (
     <div>
@@ -102,35 +52,26 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
       
-      <div className="flex items-center gap-2">
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={handleFileUpload}
-          disabled={disabled || isLoading}
-          className="hidden"
-          id="image-upload"
-        />
-        <Button
-          type="button"
-          disabled={disabled || isLoading}
-          variant="secondary"
-          onClick={() => document.getElementById("image-upload")?.click()}
-        >
-          {isLoading ? (
-            <>
-              <Loader className="h-4 w-4 mr-2 animate-spin" />
-              Uploading...
-            </>
-          ) : (
-            <>
-              <ImagePlus className="h-4 w-4 mr-2" />
-              Upload image
-            </>
-          )}
-        </Button>
-      </div>
+      <CldUploadWidget
+        signatureEndpoint="/api/cloudinary/signature"
+        onSuccess={(result) => {
+          if (result.info && typeof result.info !== "string" && "secure_url" in result.info) {
+            onChange(result.info.secure_url);
+          }
+        }}
+      >
+        {({ open }) => (
+          <Button
+            type="button"
+            disabled={disabled}
+            variant="secondary"
+            onClick={() => open()}
+          >
+            <ImagePlus className="h-4 w-4 mr-2" />
+            Upload image
+          </Button>
+        )}
+      </CldUploadWidget>
     </div>
   );
 };
