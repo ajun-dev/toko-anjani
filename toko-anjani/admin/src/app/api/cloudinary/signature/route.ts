@@ -2,24 +2,34 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 
 export async function POST(request: Request) {
-  const apiKey = process.env.CLOUDINARY_API_KEY;
   const apiSecret = process.env.CLOUDINARY_API_SECRET;
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
-  if (!apiKey || !apiSecret || !cloudName) {
-    return NextResponse.json({ error: "Missing Cloudinary env" }, { status: 500 });
+  if (!apiSecret) {
+    return NextResponse.json({ error: "Missing API secret" }, { status: 500 });
   }
 
   const body = await request.json();
-  const { paramsToSign } = body;
+  const timestamp = Math.round(Date.now() / 1000);
+  
+  // Create string to sign from params
+  const signatureParams: Record<string, any> = {
+    timestamp,
+    ...body,
+  };
+
+  // Sort params alphabetically and create signature string
+  const sortedParams = Object.keys(signatureParams)
+    .sort()
+    .map((key) => `${key}=${signatureParams[key]}`)
+    .join("&");
 
   const signature = crypto
     .createHash("sha1")
-    .update(paramsToSign + apiSecret)
+    .update(sortedParams + apiSecret)
     .digest("hex");
 
   return NextResponse.json({
     signature,
-    apiKey,
+    timestamp,
   });
 }

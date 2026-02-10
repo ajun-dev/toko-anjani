@@ -54,6 +54,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       
       <CldUploadWidget
         signatureEndpoint="/api/cloudinary/signature"
+        uploadSignatureTimestamp={true}
+        options={{
+          cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+          apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+        }}
         onSuccess={(result) => {
           if (result.info && typeof result.info !== "string" && "secure_url" in result.info) {
             onChange(result.info.secure_url);
