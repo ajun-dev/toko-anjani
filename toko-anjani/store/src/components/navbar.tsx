@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import Container from "./ui/container";
 import MainNav from "./main-nav";
 import getCategories from "@/actions/get-categories";
@@ -13,16 +12,8 @@ const Navbar = async () => {
     <div className="border-b">
       <Container>
         <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center">
-          <Link href="/" className="ml-4 flex lg:ml-8 gap-x-2 items-center">
-            <Image
-              src="/logo.svg"
-              alt="Toko Anjani Logo"
-              width={40}
-              height={40}
-              className="w-10 h-10"
-              priority
-            />
-            <span className="hidden sm:inline font-bold text-lg">TOKO ANJANI</span>
+          <Link href="/" className="ml-4 flex lg:ml-8 gap-x-2">
+            <p className="font-bold text-xl">TOKO ANJANI</p>
           </Link>
           <MainNav data={categories} />
         </div>
