@@ -29,6 +29,19 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
     return null;
   }
 
+  const fetchSignature = async () => {
+    const res = await fetch("/api/cloudinary/signature", { method: "POST" });
+    if (!res.ok) {
+      throw new Error("Failed to get upload signature");
+    }
+    return res.json() as Promise<{
+      timestamp: number;
+      signature: string;
+      apiKey: string;
+      cloudName: string;
+    }>;
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
@@ -37,16 +50,21 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
     const newUrls: string[] = [];
 
     try {
+      const { timestamp, signature, apiKey, cloudName } = await fetchSignature();
       for (const file of Array.from(files)) {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "unsigned_upload");
-        formData.append("cloud_name", "dbdby6oxg");
+        formData.append("api_key", apiKey);
+        formData.append("timestamp", String(timestamp));
+        formData.append("signature", signature);
 
-        const res = await fetch("https://api.cloudinary.com/v1_1/dbdby6oxg/image/upload", {
-          method: "POST",
-          body: formData,
-        });
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         if (res.ok) {
           const data = await res.json();
