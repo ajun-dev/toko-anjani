@@ -62,15 +62,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <div className="relative" ref={menuRef}>
+      <div className="relative pointer-events-auto" ref={menuRef}>
         <button
           onClick={(e) => {
+            console.log("CLICK WORKS");
+            e.preventDefault();
             e.stopPropagation();
-            alert("Button clicked! menuOpen:" + menuOpen);
             setMenuOpen(!menuOpen);
           }}
-          className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors"
+          className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors pointer-events-auto"
           type="button"
+          style={{ pointerEvents: "auto" }}
         >
           <span className="sr-only">Open Menu</span>
           <MoreHorizontal className="h-4 w-4" />
