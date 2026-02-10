@@ -54,7 +54,6 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
 
       <CldUploadWidget
         signatureEndpoint="/api/cloudinary/signature"
-        uploadSignatureTimestamp={true}
         options={{
           cloudName: "dbdby6oxg",
           apiKey: "895935489518768",
