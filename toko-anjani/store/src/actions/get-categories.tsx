@@ -10,6 +10,12 @@ const getCategories = async (): Promise<Category[]> => {
       console.error('Failed to fetch categories:', res.status);
       return [];
     }
+
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      console.error("Non-JSON categories response");
+      return [];
+    }
     
     return res.json();
   } catch (error) {

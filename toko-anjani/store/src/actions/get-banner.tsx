@@ -10,6 +10,12 @@ const getBanner = async (id: string): Promise<Banner | null> => {
       console.error('Failed to fetch banner:', res.status);
       return null;
     }
+
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      console.error("Non-JSON banner response");
+      return null;
+    }
     
     return res.json();
   } catch (error) {

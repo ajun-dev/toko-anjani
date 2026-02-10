@@ -11,6 +11,12 @@ const getProduct = async (id: string): Promise<Product | null> => {
       return null;
     }
 
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      console.error("Non-JSON product response");
+      return null;
+    }
+
     return res.json();
   } catch (error) {
     console.error('Error fetching product:', error);

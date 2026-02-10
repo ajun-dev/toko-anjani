@@ -11,6 +11,12 @@ const getCategory = async (id: string): Promise<Category | null> => {
       return null;
     }
 
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      console.error("Non-JSON category response");
+      return null;
+    }
+
     return res.json();
   } catch (error) {
     console.error('Error fetching category:', error);

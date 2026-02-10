@@ -14,6 +14,12 @@ const getBanners = async (): Promise<Banner[]> => {
       console.error('Failed to fetch banners:', res.status, res.statusText);
       return [];
     }
+
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      console.error("Non-JSON banners response");
+      return [];
+    }
     
     const data = await res.json();
     return Array.isArray(data) ? data : [];
