@@ -11,7 +11,6 @@ import {
 
 import axios from "axios";
 import { BannerColumn } from "./columns";
-import { Button } from "@/components/ui/button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -57,17 +56,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     />
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-          <Button 
-            variant="ghost" 
-            className="relative z-50"
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log("Button clicked!");
-            }}
-          >
+        <button 
+          className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-3 relative z-50 cursor-pointer"
+          type="button"
+        >
           <span className="sr-only">Open Menu</span>
           <MoreHorizontal className="h-4 w-4" />
-        </Button>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
