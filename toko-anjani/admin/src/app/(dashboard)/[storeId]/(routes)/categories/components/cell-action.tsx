@@ -64,7 +64,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       />
       <div className="relative" ref={menuRef}>
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={(e) => {
+            e.stopPropagation();
+            alert("Button clicked! menuOpen:" + menuOpen);
+            setMenuOpen(!menuOpen);
+          }}
           className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors"
           type="button"
         >
