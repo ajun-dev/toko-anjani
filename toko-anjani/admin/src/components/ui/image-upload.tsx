@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "./button";
-import { ImagePlus, Trash } from "lucide-react";
+import { Trash, Copy } from "lucide-react";
 import Image from "next/image";
-import { CldUploadWidget } from "next-cloudinary";
+import { Input } from "./input";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -20,6 +20,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     setIsMounted(true);
@@ -28,6 +29,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   if (!isMounted) {
     return null;
   }
+
+  const handleAddImage = () => {
+    if (imageUrl.trim()) {
+      onChange(imageUrl);
+      setImageUrl("");
+    }
+  };
 
   return (
     <div>
@@ -51,28 +59,32 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         ))}
       </div>
-      <CldUploadWidget
-        uploadPreset="ml_default"
-        options={{ multiple: true, singleUploadAutoClose: false, sources: ["local", "url", "camera"] }}
-        onSuccess={(result) => {
-          const info = result.info;
-          if (info && typeof info !== "string" && "secure_url" in info) {
-            onChange(info.secure_url);
-          }
-        }}
-      >
-        {({ open, isLoading }) => (
-          <Button
-            type="button"
-            disabled={disabled || isLoading}
-            variant="secondary"
-            onClick={() => open()} // ✅ Wrap in a lambda
-          >
-            <ImagePlus className="h-4 w-4 mr-2" />
-            {isLoading ? "Uploading..." : "Upload image"}
-          </Button>
-        )}
-      </CldUploadWidget>
+      
+      <div className="flex gap-2">
+        <Input
+          placeholder="Paste image URL here (e.g., https://example.com/image.jpg)"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          disabled={disabled}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleAddImage();
+            }
+          }}
+        />
+        <Button
+          type="button"
+          disabled={disabled || !imageUrl.trim()}
+          variant="secondary"
+          onClick={handleAddImage}
+        >
+          Add Image
+        </Button>
+      </div>
+      
+      <p className="text-sm text-gray-500 mt-2">
+        📌 Tip: Upload gambar ke Cloudinary/Imgur dulu, lalu paste URL-nya di sini
+      </p>
     </div>
   );
 };
