@@ -4,17 +4,26 @@ import Banner from "@/components/banner";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
 
-export const revalidate = 0;
+export const revalidate = 60; // ISR: revalidate every 60 seconds
 
 const HomePage = async () => {
   let products: any[] = [];
   let banners: any[] = [];
 
   try {
-    [products, banners] = await Promise.all([
-      getProducts({ isFeatured: true }).catch(() => []),
-      getBanners().catch(() => []),
+    const [productsData, bannersData] = await Promise.all([
+      getProducts({ isFeatured: true }).catch((e) => {
+        console.error("Error fetching products:", e);
+        return [];
+      }),
+      getBanners().catch((e) => {
+        console.error("Error fetching banners:", e);
+        return [];
+      }),
     ]);
+    
+    products = productsData || [];
+    banners = bannersData || [];
   } catch (error) {
     console.error("Error fetching data:", error);
   }
