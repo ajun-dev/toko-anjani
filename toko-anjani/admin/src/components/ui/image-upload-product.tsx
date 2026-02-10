@@ -52,9 +52,8 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
         ))}
       </div>
       <CldUploadWidget
-        cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+        uploadPreset="ml_default"
         options={{
-          apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
           multiple: true,
           singleUploadAutoClose: false,
           sources: ["local", "url", "camera"],
