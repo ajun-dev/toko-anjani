@@ -24,7 +24,7 @@ import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
 // removed unused useOrigin
 import ImageUpload from "@/components/ui/image-upload";
-import { Banner } from "../../../../../../../../generated/prisma";
+import { Banner } from "@prisma/client";
 
 interface BannerFormProps {
   initialData: Banner | null;

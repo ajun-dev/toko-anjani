@@ -36,7 +36,7 @@ import {
   Category,
   Image,
   Product,
-} from "../../../../../../../../generated/prisma";
+} from "@prisma/client";
 import ImageUpload from "@/components/ui/image-upload";
 
 interface ProductFormProps {
