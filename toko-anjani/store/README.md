@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Toko Anjani - Toko Online
+
+Toko online Toko Anjani dengan antarmuka modern dan responsif. Built with Next.js dan Next.js App Router.
+
+## Deskripsi
+
+Aplikasi e-commerce untuk pelanggan berbelanja produk dari Toko Anjani dengan pengalaman pengguna yang mulus.
 
 ## Getting Started
 

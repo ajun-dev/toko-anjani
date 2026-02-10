@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Toko Anjani Admin Panel
+
+Panel administrasi untuk mengelola toko online Toko Anjani. Built with Next.js dan Prisma.
+
+## Deskripsi
+
+Aplikasi ini adalah dashboard admin yang memungkinkan pemilik toko untuk mengelola produk, kategori, dan pengaturan toko.
 
 ## Getting Started
 
