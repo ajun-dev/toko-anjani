@@ -118,29 +118,24 @@ const ImageUploadProduct: React.FC<ImageUploadProps> = ({
           className="hidden"
           id="image-upload-product"
         />
-        <label htmlFor="image-upload-product">
-          <Button
-            type="button"
-            disabled={disabled || isLoading}
-            variant="secondary"
-            onClick={() => document.getElementById("image-upload-product")?.click()}
-            asChild
-          >
-            <div className="cursor-pointer">
-              {isLoading ? (
-                <>
-                  <Loader className="h-4 w-4 mr-2 animate-spin" />
-                  Uploading...
-                </>
-              ) : (
-                <>
-                  <ImagePlus className="h-4 w-4 mr-2" />
-                  Upload images
-                </>
-              )}
-            </div>
-          </Button>
-        </label>
+        <Button
+          type="button"
+          disabled={disabled || isLoading}
+          variant="secondary"
+          onClick={() => document.getElementById("image-upload-product")?.click()}
+        >
+          {isLoading ? (
+            <>
+              <Loader className="h-4 w-4 mr-2 animate-spin" />
+              Uploading...
+            </>
+          ) : (
+            <>
+              <ImagePlus className="h-4 w-4 mr-2" />
+              Upload images
+            </>
+          )}
+        </Button>
       </div>
     </div>
   );
