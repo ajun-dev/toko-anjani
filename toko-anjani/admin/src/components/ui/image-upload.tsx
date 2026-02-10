@@ -52,8 +52,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
       <CldUploadWidget
-        uploadPreset="kyop6jdp"
-        options={{ multiple: true, singleUploadAutoClose: false, sources: ["local", "url", "camera"] }}
+        cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+        options={{ 
+          apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+          multiple: true, 
+          singleUploadAutoClose: false, 
+          sources: ["local", "url", "camera"] 
+        }}
         onSuccess={(result) => {
           const info = result.info;
           if (info && typeof info !== "string" && "secure_url" in info) {
