@@ -1,6 +1,6 @@
 import { Product } from "../types";
 
-const URL = `https://admin-toko-anjani-a9sj8o9oz-twentyones-projects-d1a10e32.vercel.app/api/76c89a5b-6289-4bc0-bf35-75377fb90aa5/products`;
+const URL = `https://admin-toko-anjani-2eahvn7ax-twentyones-projects-d1a10e32.vercel.app/api/2e7ed42a-6aef-4701-9476-51f24c40312f/products`;
 
 const getProduct = async (id: string): Promise<Product | null> => {
   try {
