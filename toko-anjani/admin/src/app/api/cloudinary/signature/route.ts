@@ -9,27 +9,17 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const timestamp = Math.round(Date.now() / 1000);
-  
-  // Create string to sign from params
-  const signatureParams: Record<string, any> = {
-    timestamp,
-    ...body,
-  };
+  const { paramsToSign } = body;
 
-  // Sort params alphabetically and create signature string
-  const sortedParams = Object.keys(signatureParams)
-    .sort()
-    .map((key) => `${key}=${signatureParams[key]}`)
-    .join("&");
+  if (!paramsToSign) {
+    return NextResponse.json({ error: "Missing paramsToSign" }, { status: 400 });
+  }
 
+  // Sign the exact string sent by the widget
   const signature = crypto
     .createHash("sha1")
-    .update(sortedParams + apiSecret)
+    .update(paramsToSign + apiSecret)
     .digest("hex");
 
-  return NextResponse.json({
-    signature,
-    timestamp,
-  });
+  return NextResponse.json({ signature });
 }
