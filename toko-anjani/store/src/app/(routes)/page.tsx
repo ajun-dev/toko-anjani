@@ -7,13 +7,22 @@ import Container from "@/components/ui/container";
 export const revalidate = 0;
 
 const HomePage = async () => {
-  const products = await getProducts({ isFeatured: true });
-  const banners = await getBanners();
+  let products: any[] = [];
+  let banners: any[] = [];
+
+  try {
+    [products, banners] = await Promise.all([
+      getProducts({ isFeatured: true }).catch(() => []),
+      getBanners().catch(() => []),
+    ]);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 
   return (
     <Container>
       <div className="space-y-10 pb-10">
-        {banners.length > 0 && (
+        {banners && banners.length > 0 && (
           <div className="flex flex-col gap-4">
             {banners.map((banner) => (
               <Banner key={banner.id} data={banner} />
