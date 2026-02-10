@@ -57,16 +57,17 @@ export async function POST(
 
 export async function GET(
   req: Request,
-  { params }: { params: { storeId: string } }
+  { params }: { params: Promise<{ storeId: string }> }
 ) {
   try {
-    if (!params.storeId) {
+    const { storeId } = await params;
+    if (!storeId) {
       return new NextResponse("Store id URL dibutuhkan");
     }
 
     const banner = await db.banner.findMany({
       where: {
-        storeId: params.storeId,
+        storeId: storeId,
       },
     });
 
