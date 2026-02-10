@@ -57,7 +57,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     />
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative z-50">
+          <Button 
+            variant="ghost" 
+            className="relative z-50"
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log("Button clicked!");
+            }}
+          >
           <span className="sr-only">Open Menu</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
