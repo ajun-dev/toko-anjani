@@ -54,10 +54,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <DropdownMenu>
-        <DropdownMenuTrigger>
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
           <button 
-            className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer pointer-events-auto"
+            className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0"
             type="button"
           >
             <span className="sr-only">Open Menu</span>
