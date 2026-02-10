@@ -5,7 +5,6 @@ const URL = `https://admin-toko-anjani-a9sj8o9oz-twentyones-projects-d1a10e32.ve
 const getBanners = async (): Promise<Banner[]> => {
   try {
     const res = await fetch(URL, { 
-      cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
       }

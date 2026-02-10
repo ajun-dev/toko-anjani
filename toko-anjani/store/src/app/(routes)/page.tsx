@@ -4,7 +4,8 @@ import Banner from "@/components/banner";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
 
-export const revalidate = 60; // ISR: revalidate every 60 seconds
+export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 const HomePage = async () => {
   let products: any[] = [];
