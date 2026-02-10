@@ -56,8 +56,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         signatureEndpoint="/api/cloudinary/signature"
         uploadSignatureTimestamp={true}
         options={{
-          cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-          apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+          cloudName: "dbdby6oxg",
+          apiKey: "895935489518768",
         }}
         onSuccess={(result) => {
           if (result.info && typeof result.info !== "string" && "secure_url" in result.info) {
