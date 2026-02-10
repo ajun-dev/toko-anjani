@@ -4,6 +4,7 @@ import Gallery from "@/components/gallery";
 import Info from "@/components/info";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
+import { notFound } from "next/navigation";
 
 interface ProductPageProps {
   params: {
@@ -19,9 +20,14 @@ const ProductPage = async ({
   const { productId } = await params;
   const product = await getProduct(productId);
 
+  if (!product) {
+    notFound();
+  }
+
   const suggestedProducts = await getProducts({
     categoryId: product?.category?.id,
   });
+  
   return (
     <div className="bg-white">
       <Container>

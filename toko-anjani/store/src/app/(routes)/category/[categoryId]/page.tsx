@@ -4,6 +4,7 @@ import Banner from "@/components/banner";
 import Container from "@/components/ui/container";
 import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
+import { notFound } from "next/navigation";
 
 interface CategoryPageProps {
   params: {
@@ -22,6 +23,11 @@ const CategoryPage = async ({
   });
 
   const category = await getCategory(categoryId);
+  
+  if (!category) {
+    notFound();
+  }
+  
   return (
     <div className="bg-white">
       <Container>
