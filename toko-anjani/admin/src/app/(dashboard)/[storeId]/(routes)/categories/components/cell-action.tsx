@@ -67,8 +67,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <span className="sr-only">Open Menu</span>
           <MoreHorizontal className="h-4 w-4" />
         </summary>
-        <div className="absolute right-0 z-50 mt-1 w-36 rounded-md border bg-popover text-popover-foreground shadow-md" style={{ pointerEvents: "auto" }}>
-          <div className="p-1">
+        <div className="absolute right-0 z-50 mt-1 w-40 rounded-md border bg-white dark:bg-gray-950 text-popover-foreground shadow-lg" style={{ pointerEvents: "auto" }}>
+          <div className="p-1 space-y-1">
             <button
               onClick={() => onCopy(data.id)}
               className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground"
