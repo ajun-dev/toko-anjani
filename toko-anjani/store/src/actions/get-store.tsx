@@ -1,5 +1,3 @@
-import { Store } from "../types";
-
 const STORE_ID = "2e7ed42a-6aef-4701-9476-51f24c40312f";
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || "https://admin-toko-anjani.vercel.app"}/api/stores/${STORE_ID}`;
 
