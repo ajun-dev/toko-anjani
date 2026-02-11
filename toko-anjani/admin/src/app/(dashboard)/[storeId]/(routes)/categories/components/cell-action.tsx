@@ -62,55 +62,41 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <div className="relative pointer-events-auto" ref={menuRef}>
-        <button
-          onClick={(e) => {
-            console.log("CLICK WORKS");
-            e.preventDefault();
-            e.stopPropagation();
-            setMenuOpen(!menuOpen);
-          }}
-          className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors pointer-events-auto"
-          type="button"
-          style={{ pointerEvents: "auto" }}
-        >
+      <details className="relative group">
+        <summary className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors list-none marker:hidden" style={{ pointerEvents: "auto" }}>
           <span className="sr-only">Open Menu</span>
           <MoreHorizontal className="h-4 w-4" />
-        </button>
-        {menuOpen && (
-          <div className="absolute right-0 z-50 mt-1 w-36 rounded-md border bg-popover text-popover-foreground shadow-md">
-            <div className="p-1">
-              <button
-                onClick={() => onCopy(data.id)}
-                className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground"
-              >
-                <Copy className="mr-2 h-4 w-4" />
-                Copy Id
-              </button>
-              <button
-                onClick={() => {
-                  router.push(`/${params.storeId}/categories/${data.id}`);
-                  setMenuOpen(false);
-                }}
-                className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground"
-              >
-                <Edit className="mr-2 h-4 w-4" />
-                Update
-              </button>
-              <button
-                onClick={() => {
-                  setOpen(true);
-                  setMenuOpen(false);
-                }}
-                className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground text-destructive"
-              >
-                <Trash className="mr-2 h-4 w-4" />
-                Delete
-              </button>
-            </div>
+        </summary>
+        <div className="absolute right-0 z-50 mt-1 w-36 rounded-md border bg-popover text-popover-foreground shadow-md" style={{ pointerEvents: "auto" }}>
+          <div className="p-1">
+            <button
+              onClick={() => onCopy(data.id)}
+              className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground"
+            >
+              <Copy className="mr-2 h-4 w-4" />
+              Copy Id
+            </button>
+            <button
+              onClick={() => {
+                router.push(`/${params.storeId}/categories/${data.id}`);
+              }}
+              className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground"
+            >
+              <Edit className="mr-2 h-4 w-4" />
+              Update
+            </button>
+            <button
+              onClick={() => {
+                setOpen(true);
+              }}
+              className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground text-destructive"
+            >
+              <Trash className="mr-2 h-4 w-4" />
+              Delete
+            </button>
           </div>
-        )}
-      </div>
+        </div>
+      </details>
     </>
   );
 };
