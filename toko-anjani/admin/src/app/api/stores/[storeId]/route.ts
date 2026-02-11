@@ -2,6 +2,33 @@ import db from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ storeId: string }> }
+) {
+  const { storeId } = await params;
+  try {
+    if (!storeId) {
+      return new NextResponse("Store id dibutuhkan", { status: 400 });
+    }
+
+    const store = await db.store.findFirst({
+      where: {
+        id: storeId,
+      },
+    });
+
+    if (!store) {
+      return new NextResponse("Store tidak ditemukan", { status: 404 });
+    }
+
+    return NextResponse.json(store);
+  } catch (error) {
+    console.log("[STORE_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
+
 export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ storeId: string }> }
