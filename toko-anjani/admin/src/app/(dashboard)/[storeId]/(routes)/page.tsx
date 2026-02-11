@@ -212,7 +212,7 @@ const DashboardPage = async ({
                             {product.category?.name || "No Category"}
                           </span>
                           <span className="text-xs text-muted-foreground">
-                            Rp {product.price.toLocaleString('id-ID')}
+                            Rp {Number(product.price).toLocaleString('id-ID')}
                           </span>
                         </div>
                       </div>
@@ -248,7 +248,7 @@ const DashboardPage = async ({
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-sm truncate">{product.name}</p>
                         <p className="text-xs text-muted-foreground mt-1">
-                          Rp {product.price.toLocaleString('id-ID')}
+                          Rp {Number(product.price).toLocaleString('id-ID')}
                         </p>
                       </div>
                       <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded whitespace-nowrap">
