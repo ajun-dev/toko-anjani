@@ -183,11 +183,6 @@ const DashboardPage = async ({
                 Tambah Banner
               </Button>
             </Link>
-            <Link href={`/${storeId}/settings`}>
-              <Button size="sm" variant="outline">
-                ⚙️ Pengaturan Toko
-              </Button>
-            </Link>
           </CardContent>
         </Card>
 
