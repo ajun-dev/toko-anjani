@@ -16,7 +16,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0 });
   const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const params = useParams();
 
@@ -41,6 +43,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     }
   };
 
+  const handleToggleMenu = () => {
+    if (!menuOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.bottom + 4,
+        right: window.innerWidth - rect.right,
+      });
+    }
+    setMenuOpen(!menuOpen);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -62,13 +75,23 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <details className="relative group">
-        <summary className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors list-none marker:hidden" style={{ pointerEvents: "auto" }}>
+      <div className="relative" ref={menuRef}>
+        <button
+          ref={buttonRef}
+          onClick={handleToggleMenu}
+          className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors"
+          type="button"
+          style={{ pointerEvents: "auto" }}
+        >
           <span className="sr-only">Open Menu</span>
           <MoreHorizontal className="h-4 w-4" />
-        </summary>
-        <div className="absolute right-0 z-50 mt-1 w-40 rounded-md border bg-white dark:bg-gray-950 text-popover-foreground shadow-lg" style={{ pointerEvents: "auto" }}>
-          <div className="p-1 space-y-1">
+        </button>
+        {menuOpen && (
+          <div 
+            className="fixed z-50 w-40 rounded-md border bg-white dark:bg-gray-950 shadow-lg"
+            style={{ top: `${menuPosition.top}px`, right: `${menuPosition.right}px`, pointerEvents: "auto" }}
+          >
+            <div className="p-1 space-y-1">
             <button
               onClick={() => onCopy(data.id)}
               className="w-full flex items-center px-2 py-1.5 text-sm cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground"
@@ -96,7 +119,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             </button>
           </div>
         </div>
-      </details>
+        )}
+      </div>
     </>
   );
 };

@@ -16,7 +16,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0 });
   const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const params = useParams();
 
@@ -39,6 +41,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setLoading(false);
       setOpen(false);
     }
+  };
+
+  const handleToggleMenu = () => {
+    if (!menuOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.bottom + 4,
+        right: window.innerWidth - rect.right,
+      });
+    }
+    setMenuOpen(!menuOpen);
   };
 
   useEffect(() => {
@@ -64,7 +77,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       />
       <div className="relative" ref={menuRef}>
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
+          ref={buttonRef}
+          onClick={handleToggleMenu}
           className="h-8 w-8 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors"
           type="button"
         >
@@ -72,7 +86,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <MoreHorizontal className="h-4 w-4" />
         </button>
         {menuOpen && (
-          <div className="absolute right-0 z-50 mt-1 w-40 rounded-md border bg-white dark:bg-gray-950 text-popover-foreground shadow-lg">
+          <div 
+            className="fixed z-50 w-40 rounded-md border bg-white dark:bg-gray-950 shadow-lg"
+            style={{ top: `${menuPosition.top}px`, right: `${menuPosition.right}px` }}
+          >
             <div className="p-1 space-y-1">
               <button
                 onClick={() => onCopy(data.id)}
