@@ -13,7 +13,7 @@ const getStore = async (): Promise<StoreData | null> => {
       headers: {
         'Content-Type': 'application/json',
       },
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: 60 } // Cache for 1 minute
     });
     
     if (!res.ok) {
