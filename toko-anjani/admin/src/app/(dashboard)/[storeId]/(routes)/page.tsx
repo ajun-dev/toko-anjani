@@ -95,7 +95,7 @@ const DashboardPage = async ({
           <div>
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <p className="text-muted-foreground">
-              Selamat datang di {store?.name} 👋
+              Selamat datang di {store?.name}
             </p>
           </div>
         </div>
