@@ -8,7 +8,6 @@ import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { ProductColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
-import { ApiList } from "@/components/ui/api-list";
 
 interface ProductClientProps {
   data: ProductColumn[]
@@ -31,12 +30,6 @@ export const ProductClient: React.FC<ProductClientProps> = ({
       </div>
       <Separator />
       <DataTable data={data} columns={columns} searchKey="name" />
-      <Heading 
-      title="API"
-      description="API untuk Products"
-      />
-      <Separator />
-      <ApiList namaIndikator="products" idIndikator="productId" />
     </>
   );
 };

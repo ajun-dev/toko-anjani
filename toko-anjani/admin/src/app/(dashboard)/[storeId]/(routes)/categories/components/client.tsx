@@ -8,7 +8,6 @@ import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { CategoryColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
-import { ApiList } from "@/components/ui/api-list";
 
 interface CategoryClientProps {
   data: CategoryColumn[]
@@ -31,12 +30,6 @@ export const CategoryClient: React.FC<CategoryClientProps> = ({
       </div>
       <Separator />
       <DataTable data={data} columns={columns} searchKey="name" />
-      <Heading 
-      title="API"
-      description="API untuk Categories"
-      />
-      <Separator />
-      <ApiList namaIndikator="categories" idIndikator="categoryId" />
     </>
   );
 };
