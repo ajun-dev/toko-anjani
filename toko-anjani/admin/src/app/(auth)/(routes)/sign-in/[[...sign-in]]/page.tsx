@@ -4,12 +4,6 @@ export default function Page() {
   return (
     <div className="min-h-screen w-full bg-background flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-sm">
-        {/* Header */}
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Toko Anjani</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Admin Panel</p>
-        </div>
-
         {/* Sign In Card */}
         <SignIn
           appearance={{
