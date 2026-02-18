@@ -67,11 +67,6 @@ export default function Page() {
               colorTextSecondary: "hsl(var(--color-muted-foreground))",
               colorInputBackground: "hsl(var(--color-background))",
               colorInputText: "hsl(var(--color-foreground))",
-              colorSuccessText: "hsl(22 100% 50%)",
-              colorDangerText: "hsl(0 100% 50%)",
-              colorNeutral: "hsl(var(--color-muted))",
-              colorShellBackground: "hsl(var(--color-background))",
-              colorShellText: "hsl(var(--color-foreground))",
               fontFamily: "inherit",
             },
           }}
